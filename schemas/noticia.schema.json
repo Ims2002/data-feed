@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Noticia",
+  "description": "Una noticia del 'Registro de noticias' con el borrador de post de LinkedIn asociado.",
+  "type": "object",
+  "required": ["id", "titular", "url", "dominio", "fecha_email", "fecha_ingesta"],
+  "properties": {
+    "id":            { "type": "string", "description": "Calculado por ingest.py: sha1 corto de la URL normalizada" },
+    "titular":       { "type": "string", "description": "Línea del 'Registro de noticias'" },
+    "url":           { "type": "string", "description": "URL limpia de la noticia (la del registro / primer comentario)" },
+    "dominio":       { "type": "string", "description": "Calculado desde la URL, p. ej. github.blog" },
+    "fuentes":       { "type": "array", "items": { "type": "string" }, "description": "URLs de 'Fuentes verificadas', limpias y sin duplicados" },
+    "post": {
+      "type": ["object", "null"],
+      "required": ["numero", "texto"],
+      "properties": {
+        "numero":   { "type": "integer", "description": "POST 1, 2, 3... dentro del mail" },
+        "texto":    { "type": "string",  "description": "Texto del post sin hashtags ni el bloque [No publicar]" },
+        "hashtags": { "type": "array", "items": { "type": "string" }, "description": "Sin el carácter #" }
+      },
+      "additionalProperties": false
+    },
+    "fecha_email":   { "type": "string", "description": "YYYY-MM-DD del mail. Decide el fichero mensual." },
+    "fecha_ingesta": { "type": "string", "description": "ISO 8601 con zona horaria, la pone ingest.py" },
+    "email_id":      { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

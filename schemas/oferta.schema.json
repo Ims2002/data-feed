@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Oferta de empleo",
+  "description": "Una oferta recibida en el resumen diario. Registro inmutable: el seguimiento (aplicada, descartada...) va en seguimiento/candidaturas.jsonl.",
+  "type": "object",
+  "required": ["id", "fuente", "puesto", "empresa", "ubicacion", "categoria_busqueda", "url", "fecha_email", "fecha_ingesta"],
+  "properties": {
+    "id":                 { "type": "string",  "description": "Calculado por ingest.py: 'linkedin:<job_id>' o 'url:<sha1 corto>'" },
+    "fuente":             { "type": "string",  "description": "Portal de origen: linkedin, infojobs, michaelpage... (calculado desde la URL si falta)" },
+    "job_id":             { "type": ["string", "null"], "description": "Id del portal cuando la URL lo contiene" },
+    "puesto":             { "type": "string" },
+    "empresa":            { "type": "string" },
+    "ubicacion":          { "type": "string",  "description": "Tal cual viene en el mail ('España', 'Madrid'...). No se infiere remoto/presencial." },
+    "categoria_busqueda": { "type": "string",  "description": "Sección del mail donde aparece: 'Data Engineer', 'Analytics Engineer', 'Big Data'..." },
+    "solicitud_sencilla": { "type": "boolean", "description": "true si el mail marca 'Solicitud sencilla'" },
+    "url":                { "type": "string",  "description": "URL limpia (sin redirección de Google ni parámetros de tracking)" },
+    "fecha_email":        { "type": "string",  "description": "YYYY-MM-DD del mail del que sale. Decide el fichero mensual." },
+    "fecha_ingesta":      { "type": "string",  "description": "ISO 8601 con zona horaria, la pone ingest.py" },
+    "email_id":           { "type": ["string", "null"], "description": "Id del mensaje de Gmail, para trazabilidad" }
+  },
+  "additionalProperties": false
+}
